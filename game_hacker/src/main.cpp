@@ -1,14 +1,14 @@
 #include <iostream>
 #include <tchar.h>
-#include "win32_helper.h"
 #include "raii.h"
-#include "model.h"
+#include "W32Lib.h"
+
 
 
 int main(int argc, char **argv)
 {
-    DWORD csgoPid = FindProcessByName(_T("csgo.exe"));
-    PVOID serverBase = GetModuleBaseAddress(csgoPid, _T("server.dll"));
+    DWORD csgoPid = hacklib::w32::FindProcessByName(_T("csgo.exe"));
+    PVOID serverBase = hacklib::w32::GetModuleBaseAddress(csgoPid, _T("server.dll"));
     printf("CSGO PID: %lu\n", csgoPid);
     printf("Server.dll base address: %p\n", serverBase);
 
@@ -18,25 +18,27 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    SIZE_T pPlayerList = (SIZE_T) serverBase + 0xAB05D4;
-    
+    SIZE_T pPlayerList = (SIZE_T) serverBase + offset::OFFSET_PLAYER_LIST;
+
     for (int i = 0; i < 10; ++i) {
-        auto memAddr = pPlayerList + i * sizeof(PlayerObjItem);
+        SIZE_T memAddr = pPlayerList + i * sizeof(game_struct::PlayerObjItem);
+
         PlayerObjItem playerObjItem;
         auto result = ReadProcessMemory(hCsgo.Get(), (PVOID) memAddr, &playerObjItem, sizeof(PlayerObjItem), nullptr);
         if (result == 0) {
             printf("Failed to read memory\n");
             return 1;
         }
- 
+
         PlayerObj pPlayer;
         result = ReadProcessMemory(hCsgo.Get(), playerObjItem.pPlayer, &pPlayer, sizeof(PlayerObj), nullptr);
         if (result == 0) {
             printf("Failed to read memory\n");
             return 1;
         }
-        
+
         printf("Player %d: %p\n", i, playerObjItem.pPlayer);
         printf("Player %d: %d\n", i, pPlayer.health);
+        printf("Player %d: %f %f %f\n", i, pPlayer.x, pPlayer.y, pPlayer.z);
     }
 }

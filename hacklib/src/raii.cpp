@@ -1,4 +1,4 @@
-#include "raii.h"
+#include "../include/raii.h"
 
 VirtualAllocRaii::VirtualAllocRaii(HANDLE hProcess, SIZE_T size) : hProcess_(hProcess), size_(size), pMemory_(nullptr)
 {

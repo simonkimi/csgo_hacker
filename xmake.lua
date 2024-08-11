@@ -1,4 +1,8 @@
 add_rules("mode.debug")
 
+
+set_languages("c++20")
+
 includes("game_hacker")
-includes("win32_utils")
+includes("hacklib")
+set_policy("build.c++.modules", true)

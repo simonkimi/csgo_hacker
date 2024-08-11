@@ -1,8 +1,8 @@
+#include "W32Lib.h"
+#include <TlHelp32.h>
 #include <raii.h>
-#include "win32_helper.h"
 
-
-DWORD FindProcessByName(LPCTSTR processName)
+DWORD hacklib::w32::FindProcessByName(LPCTSTR processName)
 {
     PROCESSENTRY32 pe32;
     pe32.dwSize = sizeof(PROCESSENTRY32);
@@ -22,7 +22,7 @@ DWORD FindProcessByName(LPCTSTR processName)
     return -1;
 }
 
-PVOID GetModuleBaseAddress(DWORD dwPid, LPCTSTR moduleName)
+PVOID hacklib::w32::GetModuleBaseAddress(DWORD dwPid, LPCTSTR moduleName)
 {
     MODULEENTRY32 me32;
     me32.dwSize = sizeof(MODULEENTRY32);
