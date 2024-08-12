@@ -1,8 +1,6 @@
 target("hacklib")
 do
     set_kind("static")
-    add_files("src/*.cpp")
-    add_headerfiles("include/*.h")
-    add_includedirs("include")
+    add_files("include/*.ixx")
     set_pcxxheader("include/pch.h")
 end 

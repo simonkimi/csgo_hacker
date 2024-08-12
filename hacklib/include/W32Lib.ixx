@@ -1,6 +1,16 @@
-#include "W32Lib.h"
-#include <TlHelp32.h>
-#include <raii.h>
+export module w32_lib;
+
+import raii;
+#include "Windows.h"
+#include "TlHelp32.h"
+
+
+export namespace hacklib::w32 {
+DWORD FindProcessByName(LPCTSTR processName);
+
+PVOID GetModuleBaseAddress(DWORD dwPid, LPCTSTR moduleName);
+}
+
 
 DWORD hacklib::w32::FindProcessByName(LPCTSTR processName)
 {

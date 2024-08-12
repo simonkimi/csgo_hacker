@@ -1,13 +1,14 @@
 export module game_struct;
 
-import <game_offsets>;
+import game_offsets;
+import mem_struct;
 
 
+export namespace game_struct {
+class UserObj : hacklib::MemStruct {
+public:
+    explicit UserObj(HANDLE pHandle, PVOID address, SIZE_T size) : MemStruct(pHandle, address, size) {}
 
-
-
-namespace game_struct {
-class UserObj : public MemStruct {
     INT GetHealth()
     {
         return GetInt(offset::OFFSET_PLAYER_HEALTH);
