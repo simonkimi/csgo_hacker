@@ -1,9 +1,12 @@
 target("csgo_hacker")
 do
     set_kind("binary")
-    add_files("src/*.cpp", "src/*.ixx")
-    set_pcxxheader("include/Pch.h")
+    add_files("src/*.cpp")
+    set_pcxxheader("include/pch.h")
 
-    add_deps("hacklib")
-    add_includedirs("$(projectdir)/hacklib/include")
+    add_headerfiles("include/*.h")
+    add_includedirs("include")
+
+    add_deps("hackerlib")
+    add_includedirs("$(projectdir)")
 end
